@@ -24,12 +24,12 @@ objectLock::~objectLock() {
         std::cout<<"MUTEX: "<<name<<" destroyed"<<std::endl;
 }
 void objectLock::lock() {
-    std::cout<<"MUTEX: "<<name<<" locking"<<std::endl;
+        //std::cout<<"MUTEX: "<<name<<" locking"<<std::endl;
     pthread_mutex_lock(&mutex);
     
 }
 void objectLock::release() {
-    std::cout<<"MUTEX: "<<name<<" release"<<std::endl;
+        //std::cout<<"MUTEX: "<<name<<" release"<<std::endl;
     pthread_mutex_unlock(&mutex);
 }
 

@@ -11,12 +11,15 @@
 
 #include <iostream>
 #include <iostream>
+#include <list>
+
 #include "objectLock.h"
 
 template <typename storage_t>
 class column : objectLock {
 private:
     int writeNum;
+    std::list<storage_t> myList;
 public:
     column(std::string name): objectLock(name), writeNum(0) {
         std::cout<<"Constructing column["<<name<<"]"<<std::endl;
@@ -36,6 +39,19 @@ public:
         --writeNum;
         release();
     }
+    
+        // -------- Specialised for storage type
+    void insert(storage_t& object) {
+            lock();
+        myList.push_back(object);
+            release();
+    }
+    unsigned long size() const {
+        return myList.size();
+    }
+    
+        // ------- End of Specialised storage type
+    
 private:
     column() = delete;
     column(const column& other)=delete;
