@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2103298718E8B1E3009CD1A2 /* objectLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2103298518E8B1E3009CD1A2 /* objectLock.cpp */; };
+		2103298718E8B1E3009CD1A2 /* objectGlobalLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2103298518E8B1E3009CD1A2 /* objectGlobalLock.cpp */; };
 		21F4E0E018DF751E00373D27 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 21F4E0DF18DF751E00373D27 /* main.cpp */; };
 		21F4E0E218DF751E00373D27 /* MemoryStorage.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 21F4E0E118DF751E00373D27 /* MemoryStorage.1 */; };
 /* End PBXBuildFile section */
@@ -27,9 +27,10 @@
 
 /* Begin PBXFileReference section */
 		2103298318E8AD95009CD1A2 /* column.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = column.hh; sourceTree = "<group>"; };
-		2103298518E8B1E3009CD1A2 /* objectLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = objectLock.cpp; sourceTree = "<group>"; };
-		2103298618E8B1E3009CD1A2 /* objectLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = objectLock.h; sourceTree = "<group>"; };
+		2103298518E8B1E3009CD1A2 /* objectGlobalLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = objectGlobalLock.cpp; sourceTree = "<group>"; };
+		2103298618E8B1E3009CD1A2 /* objectGlobalLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = objectGlobalLock.h; sourceTree = "<group>"; };
 		2163FBE318DF7CB4009F7850 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		21ECAEB618F47FBA00F82989 /* doxygen.doxy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = doxygen.doxy; sourceTree = "<group>"; };
 		21F4E0DC18DF751E00373D27 /* MemoryStorage */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MemoryStorage; sourceTree = BUILT_PRODUCTS_DIR; };
 		21F4E0DF18DF751E00373D27 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		21F4E0E118DF751E00373D27 /* MemoryStorage.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = MemoryStorage.1; sourceTree = "<group>"; };
@@ -49,6 +50,7 @@
 		21F4E0D318DF751D00373D27 = {
 			isa = PBXGroup;
 			children = (
+				21ECAEB618F47FBA00F82989 /* doxygen.doxy */,
 				2163FBE318DF7CB4009F7850 /* README.md */,
 				21F4E0DE18DF751E00373D27 /* MemoryStorage */,
 				21F4E0DD18DF751E00373D27 /* Products */,
@@ -69,8 +71,8 @@
 				21F4E0DF18DF751E00373D27 /* main.cpp */,
 				21F4E0E118DF751E00373D27 /* MemoryStorage.1 */,
 				2103298318E8AD95009CD1A2 /* column.hh */,
-				2103298618E8B1E3009CD1A2 /* objectLock.h */,
-				2103298518E8B1E3009CD1A2 /* objectLock.cpp */,
+				2103298618E8B1E3009CD1A2 /* objectGlobalLock.h */,
+				2103298518E8B1E3009CD1A2 /* objectGlobalLock.cpp */,
 			);
 			path = MemoryStorage;
 			sourceTree = "<group>";
@@ -127,7 +129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				21F4E0E018DF751E00373D27 /* main.cpp in Sources */,
-				2103298718E8B1E3009CD1A2 /* objectLock.cpp in Sources */,
+				2103298718E8B1E3009CD1A2 /* objectGlobalLock.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
