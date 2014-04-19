@@ -14,22 +14,23 @@
 
 
 
-int numThreadsWrite(5);
-int numThreadsRead(5);
+static const int numThreadsWrite(5);
+static const int numThreadsRead(5);
 int entriesAddedPerThread(10000);
 
+template<typename colType>
 struct batchObject_t {
-    column<int>* colObj;
+    colType* colObj;
     int colNumber;
     int entriesPerThread;
     pthread_t threadId;
     bool doRead;
 };
 
-
+template<typename colType>
 void* columnInsertBatch(void* columnObject) {
     
-    batchObject_t* myObject((batchObject_t*)columnObject);
+    batchObject_t<colType>* myObject((batchObject_t<colType>*)columnObject);
     
     std::cout<<"Starting WRITE thread "<<myObject->colNumber<<std::endl;
     
@@ -41,9 +42,10 @@ void* columnInsertBatch(void* columnObject) {
     return 0;
 }
 
+template<typename colType>
 void* columnRead(void* columnObject) {
     
-    batchObject_t* myObject((batchObject_t*)columnObject);
+    batchObject_t<colType>* myObject((batchObject_t<colType>*)columnObject);
     
     std::cout<<"Starting READ thread "<<myObject->colNumber<<std::endl;
     int count(0);
@@ -58,61 +60,71 @@ void* columnRead(void* columnObject) {
     return 0;
 }
 
+template<typename colType>
+void runReadWriteTest() {
+    
+    batchObject_t<colType> threadsWrite[numThreadsWrite],
+    threadsRead[numThreadsRead];
+    
+    colType colObj("PARALLEL HOLDER");
+    
+        //pthread_t columnThreads[NUM_THREADS];
+    
+    for(int i(0);i<numThreadsWrite;++i) {
+        threadsWrite[i].entriesPerThread=entriesAddedPerThread;
+        threadsWrite[i].colObj=&colObj;
+        threadsWrite[i].colNumber=i;
+        
+        pthread_create(&threadsWrite[i].threadId, NULL, columnInsertBatch<colType>, &threadsWrite[i]);
+    }
+    
+    for(int i(0);i<numThreadsRead;++i) {
+        threadsRead[i].doRead=true;
+        threadsRead[i].colObj=&colObj;
+        threadsRead[i].colNumber=i;
+        
+        pthread_create(&threadsRead[i].threadId, NULL, columnRead<colType>, &threadsRead[i]);
+    }
+    
+    
+        //Threads running in parallel at this point
+    
+        //Collect stopped Writes
+    for(int i(0);i<numThreadsWrite;++i) {
+        pthread_join(threadsWrite[i].threadId, NULL);
+    }
+    
+        //When Writes are complete then stop reads
+    for(int i(0);i<numThreadsRead;++i) {
+        threadsRead[i].doRead=false;
+    }
+    
+        //Collect stopped Reads
+    for(int i(0);i<numThreadsRead;++i) {
+        pthread_join(threadsRead[i].threadId, NULL);
+    }
+    
+    std::cout<<"Column contains :"<<colObj.size()<<std::endl;
+    
+    std::cout<<"END"<<std::endl;
+    
+    
+}
+
 
 int main(int argc, const char * argv[])
 {
         // TODO: Add thread running code
     std::cout << "Hello, World!\n";
     
-  
-    {
-        batchObject_t threadsWrite[numThreadsWrite],
-            threadsRead[numThreadsRead];
-        
-        
-        
-        column<int> colObj("PARALLEL HOLDER");
-        
-            //pthread_t columnThreads[NUM_THREADS];
-        
-        for(int i(0);i<numThreadsWrite;++i) {
-            threadsWrite[i].entriesPerThread=entriesAddedPerThread;
-            threadsWrite[i].colObj=&colObj;
-            threadsWrite[i].colNumber=i;
-            
-            pthread_create(&threadsWrite[i].threadId, NULL, columnInsertBatch, &threadsWrite[i]);
-        }
-        
-        for(int i(0);i<numThreadsRead;++i) {
-            threadsRead[i].doRead=true;
-            threadsRead[i].colObj=&colObj;
-            threadsRead[i].colNumber=i;
-            
-            pthread_create(&threadsRead[i].threadId, NULL, columnRead, &threadsRead[i]);
-        }
-        
-        
-            //Threads running in parallel at this point
-        
-        //Collect stopped Writes
-        for(int i(0);i<numThreadsWrite;++i) {
-            pthread_join(threadsWrite[i].threadId, NULL);
-        }
-        
-            //When Writes are complete then stop reads
-        for(int i(0);i<numThreadsRead;++i) {
-            threadsRead[i].doRead=false;
-        }
-        
-            //Collect stopped Reads
-        for(int i(0);i<numThreadsRead;++i) {
-            pthread_join(threadsRead[i].threadId, NULL);
-        }
-        
-        std::cout<<"Column contains :"<<colObj.size()<<std::endl;
-        
-        std::cout<<"END"<<std::endl;
-    }
+    std::cout<<"objectGlobalLock"<<std::endl;
+
+    runReadWriteTest<column<int,globalLock>>();
+    
+    std::cout<<"objectReadWriteLock"<<std::endl;
+    
+    runReadWriteTest<column<int,readWriteLock>>();
+    
     /* Last thing that main() should do */
     
     

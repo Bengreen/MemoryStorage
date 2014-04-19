@@ -6,9 +6,9 @@
     //  Copyright (c) 2014 Benjamin Greene. All rights reserved.
     //
 
-#include "objectLock.h"
+#include "objectGlobalLock.h"
 
-objectLock::objectLock(std::string name) : name(name){
+objectGlobalLock::objectGlobalLock(std::string name) : name(name){
         //Doing proper initinialise to ensure that mutex is enabled on construction.
     
     int attr_ret  =pthread_mutexattr_init(&mta);
@@ -17,18 +17,27 @@ objectLock::objectLock(std::string name) : name(name){
     if (!attr_ret && !mutex_ret)
         std::cout<<"MUTEX: "<<name<<" created"<<std::endl;
 }
-objectLock::~objectLock() {
+objectGlobalLock::~objectGlobalLock() {
     int mutex_ret = pthread_mutex_destroy(&mutex);
     
     if (!mutex_ret)
         std::cout<<"MUTEX: "<<name<<" destroyed"<<std::endl;
 }
-void objectLock::lock() {
+void objectGlobalLock::readLock() {
         //std::cout<<"MUTEX: "<<name<<" locking"<<std::endl;
     pthread_mutex_lock(&mutex);
     
 }
-void objectLock::release() {
+void objectGlobalLock::readRelease() {
+        //std::cout<<"MUTEX: "<<name<<" release"<<std::endl;
+    pthread_mutex_unlock(&mutex);
+}
+void objectGlobalLock::writeLock() {
+        //std::cout<<"MUTEX: "<<name<<" locking"<<std::endl;
+    pthread_mutex_lock(&mutex);
+    
+}
+void objectGlobalLock::writeRelease() {
         //std::cout<<"MUTEX: "<<name<<" release"<<std::endl;
     pthread_mutex_unlock(&mutex);
 }
